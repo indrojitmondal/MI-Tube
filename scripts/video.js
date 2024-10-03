@@ -61,14 +61,15 @@ const displayVideos = (videos) => {
     const videoContainer = document.getElementById('videos');
     videos.forEach(video => {
         console.log(video.thumbnail);
+        console.log(video.authors[0].profile_picture)
         const card = document.createElement('div');
         card.classList = 'card card-compact';
         card.innerHTML =
             `   
-        <figure class='h-[200px]'>
+        <figure class='h-auto'>
         <img
           src=${video.thumbnail}
-          class='w-full h-full object-cover'
+          class='w-full  object-contain'
           alt="Shoes" />
       </figure>
       <div class="px-0 py-2 flex gap-2">
