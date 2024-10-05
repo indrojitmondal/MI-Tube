@@ -14,11 +14,12 @@
         <script src="https://kit.fontawesome.com/b5a83736f2.js"
             crossorigin="anonymous"></script>
 
-        <!-- Internal CSS -->
+        <!-- External CSS -->
         <link rel="stylesheet" href="styles.css">
 
     </head>
     <body class="w-11/12 mx-auto">
+  
         <header class=" py-3 border-b">
             <nav class="flex justify-between items-center ">
                 <div class="logo  ">
@@ -48,7 +49,7 @@
                 </div>
                 <div class="sort">
 
-                    <button class="btn">SORT</button>
+                    <button id="btn-sort" onclick="showAll()" class="px-4 rounded-md py-2 border-2">SORT</button>
 
                 </div>
             </nav>
@@ -56,7 +57,24 @@
         <nav id="categories" class="py-3 flex gap-5 items-center justify-center">
         </nav>
         <main>
-            <section id="videos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-10"></section>
+            <section id="allVideos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-10"></section>
+            <section id="musicVideos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-10"></section>
+            <section id="comedyVideos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-10"></section>
+            <section id="drawingVideos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-10"></section>
+            <section id="noData" class="hidden">
+
+                <div class="flex  justify-center mt-10">
+             
+                    <div class="flex flex-col gap-10  items-center ">
+                        <img src="assets/Icon.png" class="block" alt="">
+                        <h3 class="text-xl font-bold">Oops!!Sorry, There is no <br> content here</h3>
+    
+                    </div>
+                   
+                </div>
+
+            </section>
+            
         </main>
         <script src="scripts/video.js"></script>
     </body>

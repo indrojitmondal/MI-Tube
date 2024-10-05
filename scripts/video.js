@@ -7,24 +7,20 @@ const loadCategories = () => {
 }
 // displayData 
 const displayData = (categories) => {
-
-
-
-    // console.log(categories)
+ // console.log(categories)
+ let ct=0;
     categories.forEach((item) => {
 
         // console.log(item.category);
         const categoriesContainer = document.getElementById('categories');
         //    console.log(categoriesContainer);
         const button = document.createElement('button');
-        button.classList.add('btn');
+        button.classList='px-4 rounded-md py-2 border-2 ';
         button.innerText = item.category;
+        button.setAttribute('id',`${item.category_id}`);
         categoriesContainer.appendChild(button);
 
-
     })
-
-
 
 }
 loadCategories();
@@ -36,29 +32,15 @@ const loadVideos = () => {
         .then(data => displayVideos(data.videos))
         .catch(error => console.log(error))
 }
-// const cardDemo=
-// {
-//     "category_id": "1001",
-//     "video_id": "aaaa",
-//     "thumbnail": "https://i.ibb.co/L1b6xSq/shape.jpg",
-//     "title": "Shape of You",
-//     "authors": [
-//         {
-//             "profile_picture": "https://i.ibb.co/D9wWRM6/olivia.jpg",
-//             "profile_name": "Olivia Mitchell",
-//             "verified": ""
-//         }
-//     ],
-//     "others": {
-//         "views": "100K",
-//         "posted_date": "16278"
-//     },
-//     "description": "Dive into the rhythm of 'Shape of You,' a captivating track that blends pop sensibilities with vibrant beats. Created by Olivia Mitchell, this song has already gained 100K views since its release. With its infectious melody and heartfelt lyrics, 'Shape of You' is perfect for fans looking for an uplifting musical experience. Let the music take over as Olivia's vocal prowess and unique style create a memorable listening journey."
-// }
 
-const displayVideos = (videos) => {
+
+const displayVideos = (videos,category='allVideos') => {
     console.log(videos);
-    const videoContainer = document.getElementById('videos');
+    const videoContainer = document.getElementById(category);
+    // document.getElementById('allVideos').classList.add('hidden');
+    videoContainer.innerHTML='';
+    
+    console.log(videoContainer);
     videos.forEach(video => {
         console.log(video.thumbnail);
         console.log(video.authors[0].profile_picture)
@@ -102,4 +84,81 @@ const displayVideos = (videos) => {
     })
 }
 loadVideos();
+
+function showVideos(category){
+
+}
+
+// Delegation 
+document.getElementById('categories').addEventListener('click', async(event)=>{
+    // event.stopImmediatePropagation();
+
+    document.getElementById('noData').classList.add ('hidden');
+    let current=event.target;
+    const id = event.target.getAttribute('id');
+    restAllButton();
+    // alert(id);
+
+    const res = await fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`);
+    const data = await res.json();
+    console.log('category',data.category);
+    document.getElementById('allVideos').classList.add('hidden');
+    document.getElementById('musicVideos').classList.add('hidden');
+    document.getElementById('comedyVideos').classList.add('hidden');
+    document.getElementById('drawingVideos').classList.add('hidden');
+    console.log(event.target);
+    event.target.classList.remove('hidden');
+   
+
+    if(data.category.length===0){
+        // alert('check')
+        document.getElementById('noData').classList.remove('hidden');
+                
+        current.classList.add('active');
+        document.getElementById('drawingVideos').classList.remove('hidden');
+        document.getElementById('drawingVideos').innerHTML=''; 
+       displayVideos(data.category,'drawingVideos');
+
+    }
+    
+    else if(id==='1001'){
+        document.getElementById('musicVideos').classList.remove('hidden');
+        current.classList.add('active');
+    document.getElementById('musicVideos').innerHTML='';    
+    displayVideos(data.category,'musicVideos');
+
+    }
+    else if(id==='1003'){
+        current.classList.add('active');
+       
+        document.getElementById('comedyVideos').classList.remove('hidden');
+        document.getElementById('comedyVideos').innerHTML='';  
+        displayVideos(data.category,'comedyVideos');
+    //  alert(displayVideos(data.category,'drawingVideos'))
+    }
+    else {
+        // document.getElementById('allVideos').classList.remove('hidden');
+        // document.getElementById('allVideos').innerHTML=''; 
+    //    displayVideos(data.category,'allVideos');
+    }
+ 
+})
+
+function showAll(){
+    document.getElementById('noData').classList.add ('hidden');
+    restAllButton();
+    document.getElementById('allVideos').classList.remove('hidden'); 
+    document.getElementById('musicVideos').classList.add('hidden'); 
+    document.getElementById('comedyVideos').classList.add('hidden'); 
+    document.getElementById('drawingVideos').classList.add('hidden'); 
+    document.getElementById('btn-sort').classList.add('active'); 
+ 
+}
+function restAllButton(){
+    const allButtons=document.querySelectorAll('button');
+    allButtons.forEach(button =>{
+        button.classList.remove('active');
+    })
+    
+}
 
